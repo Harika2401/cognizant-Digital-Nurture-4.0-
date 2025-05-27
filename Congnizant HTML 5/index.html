@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Community Event Portal</title>
+  <style>
+    body
+	 { 
+		font-family: Arial, sans-serif;
+		margin: 0; 
+		padding: 0; 
+		background: #f4f4f4; 
+	}
+    header, nav, section, footer {
+	 padding: 1rem; 
+	}
+    nav { 
+	background-color: #333; 
+	display: flex;
+	justify-content: space-around;
+	 }
+    nav a 
+	{
+ 		color: white; 
+		text-decoration: none; 
+		padding: 0.5rem;
+	 }
+    nav a:hover { 
+		background-color: #555; 
+	}
+    #welcomeBanner { 
+		background-color: #007BFF; 
+		color: white; 
+		padding: 1rem; 
+		text-align: center; 
+	}
+    .highlight { 
+		background-color: yellow; 
+	}
+    table img { 
+		width: 100px; 
+		border: 2px solid #333; 
+	}
+    table { 
+		width: 100%; 
+		text-align: center; 
+		margin-top: 1rem; 
+	}
+    form { 
+		display: flex; 
+		flex-direction: column;
+		max-width: 600px; 
+		margin: auto; 
+		background: white; 
+		padding: 1rem; 
+		border-radius: 8px; 
+	}
+    form input, form select, form textarea { 
+		margin-bottom: 1rem; 
+		padding: 0.5rem;
+	}
+    .feedback-section, .preferences-section, .geo-section { 
+		background: white; 
+		padding: 1rem; 
+		margin: 1rem auto; 
+		max-width: 600px; 
+		border-radius: 8px; 
+	}
+    .char-count { 
+		font-size: 0.9rem; 
+		color: gray; 
+	}
+    #mapCoords { 
+		font-weight: bold; 
+	}
+    video { 
+		display: block; 
+		margin: 1rem auto; 
+		width: 100%; 
+		max-width: 600px; 
+	}
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="#home">Home</a>
+  <a href="#events">Events</a>
+  <a href="#contact">Contact</a>
+  <a href="help.html" target="_blank">Help</a>
+</nav>
+
+<div id="welcomeBanner">
+  Welcome to the Community Portal! <span style="color: red; font-weight: bold;">Limited Time Offers!</span>
+</div>
+
+<main>
+  <section id="home">
+    <h2 class="highlight">Home</h2>
+    <p>This portal allows residents to register and stay informed about local events.</p>
+  </section>
+
+  <section id="events">
+    <h2>Event Gallery</h2>
+    <table>
+      <caption>Previous Community Events</caption>
+      <tr>
+        <td><img src="event1.jpg" alt="Event 1" title="Spring Festival" ondblclick="enlargeImage(this)"></td>
+        <td><img src="event2.jpg" alt="Event 2" title="Music Night" ondblclick="enlargeImage(this)"></td>
+        <td><img src="event3.jpg" alt="Event 3" title="Food Fair" ondblclick="enlargeImage(this)"></td>
+      </tr>
+      <tr>
+        <td><img src="event4.jpg" alt="Event 4" title="Book Fair" ondblclick="enlargeImage(this)"></td>
+        <td><img src="event5.jpg" alt="Event 5" title="Tech Expo" ondblclick="enlargeImage(this)"></td>
+        <td><img src="event6.jpg" alt="Event 6" title="Charity Run" ondblclick="enlargeImage(this)"></td>
+      </tr>
+    </table>
+
+    <h3>Register for Event</h3>
+    <form onsubmit="return showConfirmation(event)">
+      <input type="text" name="name" placeholder="Your Name" required autofocus>
+      <input type="email" name="email" placeholder="Your Email" required>
+      <input type="tel" name="phone" placeholder="Phone Number" onblur="validatePhone(this)" required>
+      <input type="date" name="date" required>
+      <select id="eventType" name="event" onchange="updateFee(this.value)">
+        <option value="">Select Event Type</option>
+        <option value="Music">Music</option>
+        <option value="Food">Food</option>
+        <option value="Tech">Tech</option>
+      </select>
+      <div>Fee: <span id="eventFee">0</span> USD</div>
+      <textarea name="message" placeholder="Any Message" onkeyup="countChars(this)"></textarea>
+      <div class="char-count">Characters: <span id="charCount">0</span></div>
+      <output id="confirmationMsg"></output>
+      <button type="submit">Submit</button>
+    </form>
+  </section>
+
+  <section class="preferences-section">
+    <h3>Event Preferences</h3>
+    <select id="preferredEvent" onchange="savePreference(this.value)">
+      <option value="">Choose Preferred Event</option>
+      <option value="Music">Music</option>
+      <option value="Food">Food</option>
+      <option value="Tech">Tech</option>
+    </select>
+    <button onclick="clearPreferences()">Clear Preferences</button>
+  </section>
+
+  <section class="geo-section">
+    <h3>Find Nearby Events</h3>
+    <button onclick="getLocation()">Find Nearby Events</button>
+    <div id="mapCoords"></div>
+  </section>
+
+  <section>
+    <h3>Event Promo Video</h3>
+    <video controls oncanplay="document.getElementById('videoMsg').textContent = 'Video ready to play';">
+      <source src="promo.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <p id="videoMsg"></p>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer>
+  <p>&copy; 2025 Local City Council</p>
+</footer>
+
+<script>
+  function validatePhone(input) {
+    const phonePattern = /^\d{10}$/;
+    if (!phonePattern.test(input.value)) {
+      alert("Invalid phone number. Must be 10 digits.");
+    }
+  }
+
+  function updateFee(eventType) {
+    const fees = { Music: 10, Food: 20, Tech: 30 };
+    document.getElementById("eventFee").textContent = fees[eventType] || 0;
+  }
+
+  function showConfirmation(event) {
+    event.preventDefault();
+    document.getElementById("confirmationMsg").textContent = "Thank you for registering!";
+    return false;
+  }
+
+  function enlargeImage(img) {
+    img.style.width = img.style.width === '300px' ? '100px' : '300px';
+  }
+
+  function countChars(textarea) {
+    document.getElementById("charCount").textContent = textarea.value.length;
+  }
+
+  function savePreference(eventType) {
+    localStorage.setItem("preferredEvent", eventType);
+  }
+
+  function clearPreferences() {
+    localStorage.clear();
+    sessionStorage.clear();
+    document.getElementById("preferredEvent").value = "";
+  }
+
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          document.getElementById("mapCoords").textContent = `Latitude: ${position.coords.latitude}, Longitude: ${position.coords.longitude}`;
+        },
+        error => {
+          document.getElementById("mapCoords").textContent = `Error: ${error.message}`;
+        },
+        { enableHighAccuracy: true, timeout: 5000 }
+      );
+    } else {
+      document.getElementById("mapCoords").textContent = "Geolocation not supported.";
+    }
+  }
+
+  window.onload = () => {
+    const saved = localStorage.getItem("preferredEvent");
+    if (saved) {
+      document.getElementById("preferredEvent").value = saved;
+    }
+  };
+
+  window.onbeforeunload = function () {
+    return "You have unsaved changes. Are you sure you want to leave?";
+  };
+</script>
+
+</body>
+</html>
