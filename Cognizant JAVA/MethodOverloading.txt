@@ -1,0 +1,16 @@
+public class MethodOverloading{
+    public static int add(int i1, int i2) {
+        return i1 + i2;
+    }
+    public static double add(double d1, double d2) {
+        return d1 + d2;
+    }
+    public static int add(int a, int b, int c) {
+        return a + b + c;
+    }
+    public static void main(String[] args) {
+        System.out.println("Sum of two integers: " + add(10, 20));
+        System.out.println("Sum of two doubles: " + add(5.5, 2.3));
+        System.out.println("Sum of three integers: " + add(1, 2, 3));
+    }
+}

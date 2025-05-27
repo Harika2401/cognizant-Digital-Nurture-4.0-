@@ -1,0 +1,24 @@
+import java.util.Scanner;
+public class ArraySumAndAverage {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the number of elements: ");
+        int n = sc.nextInt();
+        System.out.println("You entered = " + n);
+        if (n<= 0) {
+            System.out.println("Please enter a positive number.");
+        } else {
+            int sum = 0;
+            System.out.println("Enter " + n+ " numbers:");
+            for (int i = 0; i < n; i++) {
+                int nums = sc.nextInt();
+                System.out.println("You entered: " + nums); // Debug output
+                sum += nums;
+            }
+            double avg = (double) sum / n;
+            System.out.println("Sum: " + sum);
+            System.out.println("Average: " + avg);
+        }
+        sc.close();
+    }
+}
