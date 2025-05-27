@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Media Object Layout</title>
+    <style>
+        .media {
+            display: flex;
+            align-items: flex-start;
+            max-width: 600px;
+            margin: 20px auto;
+            border: 1px solid #ccc;
+            padding: 15px;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+        }
+        .media img {
+            width: 120px;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 8px;
+        }
+        .media-body {
+            flex: 1;
+        }
+        .media-body h2 {
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="media">
+        <img src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="Media Image">
+        <div class="media-body">
+            <h2>Heading</h2>
+            <p>
+                This is the content placed to the right of Image.
+            </p>
+        </div>
+    </div>
+
+</body>
+</html>
